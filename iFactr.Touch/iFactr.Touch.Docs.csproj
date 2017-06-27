@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{00BE4EE7-A7ED-4E31-92DA-03F8CB58DE84}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>iFactr.Touch.Docs</RootNamespace>
+    <AssemblyName>iFactr.Touch.Docs</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Controls\Accelerometer.cs" />
+    <Compile Include="Controls\Compass.cs" />
+    <Compile Include="Controls\ContentViewController.cs" />
+    <Compile Include="Controls\Geolocation.cs" />
+    <Compile Include="Controls\ImagePicker.cs" />
+    <Compile Include="Controls\LGViewHUD.cs" />
+    <Compile Include="Controls\LoadSpinner.cs" />
+    <Compile Include="Controls\MailComposer.cs" />
+    <Compile Include="Controls\NinePatch.cs" />
+    <Compile Include="Controls\Printer.cs" />
+    <Compile Include="Controls\ScanLayerView.cs" />
+    <Compile Include="Controls\VideoPlayer.cs" />
+    <Compile Include="Controls\ViewControllers.cs" />
+    <Compile Include="Controls\VoiceRecorder.cs" />
+    <Compile Include="Controls\WebBrowser.cs" />
+    <Compile Include="CornersView.cs" />
+    <Compile Include="DetailViewController.cs" />
+    <Compile Include="DialogSource\DialogViewController.cs" />
+    <Compile Include="DialogSource\Elements.cs" />
+    <Compile Include="DialogSource\Reflect.cs" />
+    <Compile Include="DialogSource\Utilities\Controls.cs" />
+    <Compile Include="DialogSource\Utilities\GlassButton.cs" />
+    <Compile Include="DialogSource\Utilities\Graphics.cs" />
+    <Compile Include="DialogSource\Utilities\ImageLoader.cs" />
+    <Compile Include="DialogSource\Utilities\LocalizationExtensions.cs" />
+    <Compile Include="DialogSource\Utilities\LRUCache.cs" />
+    <Compile Include="Dialogs\IndexedLinkList.cs" />
+    <Compile Include="Dialogs\LRUCache.cs" />
+    <Compile Include="Dialogs\UrlImageStore.cs" />
+    <Compile Include="DividerView.cs" />
+    <Compile Include="DrawingCanvas.cs" />
+    <Compile Include="DrawingCaptureViewController.cs" />
+    <Compile Include="Extensions\LinkExtensions.cs" />
+    <Compile Include="Extensions\TableViewExtensions.cs" />
+    <Compile Include="Extensions\UIViewExtensions.cs" />
+    <Compile Include="Extensions\UrlExtensions.cs" />
+    <Compile Include="Extensions\WebViewExtensions.cs" />
+    <Compile Include="Forms\FieldControl.cs" />
+    <Compile Include="Forms\FieldItems\BoolControl.cs" />
+    <Compile Include="Forms\FieldItems\ButtonControl.cs" />
+    <Compile Include="Forms\FieldItems\DateControl.cs" />
+    <Compile Include="Forms\FieldItems\DrawingControl.cs" />
+    <Compile Include="Forms\FieldItems\ImagePickerControl.cs" />
+    <Compile Include="Forms\FieldItems\LabelControl.cs" />
+    <Compile Include="Forms\FieldItems\MultiLineTextControl.cs" />
+    <Compile Include="Forms\FieldItems\NavigationControl.cs" />
+    <Compile Include="Forms\FieldItems\SelectListControl.cs" />
+    <Compile Include="Forms\FieldItems\SliderControl.cs" />
+    <Compile Include="Forms\FieldItems\TextControl.cs" />
+    <Compile Include="Forms\iFormExtensions.cs" />
+    <Compile Include="Forms\IResponder.cs" />
+    <Compile Include="Layers\ContentLayerExtensions.cs" />
+    <Compile Include="Layers\iLayerExtensions.cs" />
+    <Compile Include="Layers\LayerControls\BlockControl.cs" />
+    <Compile Include="Layers\LayerControls\CollectionControl.cs" />
+    <Compile Include="Layers\LayerControls\ContentControl.cs" />
+    <Compile Include="Layers\LayerControls\FieldsetControl.cs" />
+    <Compile Include="Layers\LayerControls\ItemControl.cs" />
+    <Compile Include="Layers\LayerControls\LayerControl.cs" />
+    <Compile Include="Layers\LayerControls\MessageControl.cs" />
+    <Compile Include="Layers\LayerControls\MultiLineSubtextControl.cs" />
+    <Compile Include="Layers\LayerControls\PanelControl.cs" />
+    <Compile Include="Layers\LayerControls\RightSubtextControl.cs" />
+    <Compile Include="Layers\LayerControls\ShopControl.cs" />
+    <Compile Include="Layers\LayerControls\SubtextBelowAndBesideControl.cs" />
+    <Compile Include="Layers\LayerControls\SubtextControl.cs" />
+    <Compile Include="Layers\LayerControls\VariableContentControl.cs" />
+    <Compile Include="Layers\LoginLayerExtensions.cs" />
+    <Compile Include="Layers\NavigationTabExtensions.cs" />
+    <Compile Include="Layers\SlidingPanelExtensions.cs" />
+    <Compile Include="Layers\TableSource.cs" />
+    <Compile Include="Layers\TableViewController.cs" />
+    <Compile Include="ModalManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RootViewController.cs" />
+    <Compile Include="SearchDisplay.cs" />
+    <Compile Include="SplitView.cs" />
+    <Compile Include="Styles\StyleExtensions.cs" />
+    <Compile Include="TouchCompositor.cs" />
+    <Compile Include="TouchFactory.cs" />
+    <Compile Include="TouchSettingsDictionary.cs" />
+    <Compile Include="VanityController.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DialogSource\Images\arrow.png" />
+    <Content Include="Images\backIcon.png" />
+    <Content Include="Images\forwardIcon.png" />
+    <Content Include="Images\loginButton%402x.png" />
+    <Content Include="Images\loginButton.png" />
+    <Content Include="Images\menuIcon.png" />
+    <Content Include="Images\scannerBackground.jpg" />
+    <Content Include="Images\scannerButton.png" />
+    <Content Include="Images\stars0.5.png" />
+    <Content Include="Images\stars0.png" />
+    <Content Include="Images\stars1.5.png" />
+    <Content Include="Images\stars1.png" />
+    <Content Include="Images\stars2.5.png" />
+    <Content Include="Images\stars2.png" />
+    <Content Include="Images\stars3.5.png" />
+    <Content Include="Images\stars3.png" />
+    <Content Include="Images\stars4.5.png" />
+    <Content Include="Images\stars4.png" />
+    <Content Include="Images\stars5.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="TouchFactory.cd" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

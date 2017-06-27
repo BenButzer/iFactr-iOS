@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iFactr.Touch", "iFactr.Touch\iFactr.Touch.csproj", "{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhone = Debug|iPhone
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Debug|iPhone.Build.0 = Debug|iPhone
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Release|iPhone.ActiveCfg = Release|iPhone
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Release|iPhone.Build.0 = Release|iPhone
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = iFactr.Touch\iFactr.Touch.csproj
+	EndGlobalSection
+EndGlobal

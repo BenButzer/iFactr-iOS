@@ -1,0 +1,399 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>iFactr.Touch</RootNamespace>
+    <MtouchSdkVersion>3.0</MtouchSdkVersion>
+    <AssemblyName>iFactr.Touch</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG MONO TOUCH</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <MtouchDebug>True</MtouchDebug>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchLink>None</MtouchLink>
+    <DefineConstants>MONO TOUCH;PARTIAL_SIGN</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>True</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>False</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG MONO TOUCH</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>True</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>full</DebugType>
+    <Optimize>True</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DefineConstants>MONO TOUCH;PARTIAL_SIGN</DefineConstants>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="iFactr.UI">
+      <HintPath>..\iFactr.UI\Distribution\iFactr.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoCross">
+      <HintPath>..\iFactr.UI\MonoCross\Distribution\MonoCross.dll</HintPath>
+    </Reference>
+    <Reference Include="MonoCross.Utilities.Touch">
+      <HintPath>..\iFactr.UI\MonoCross\Distribution\MonoCross.Utilities.Touch.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\iFactr.UI\Distribution\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="Xamarin.iOS" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ItemGroup>
+    <Compile Include="Controls\ImagePicker.cs" />
+    <Compile Include="Controls\LoadSpinner.cs" />
+    <Compile Include="Controls\MailComposer.cs" />
+    <Compile Include="Controls\ScanLayerView.cs" />
+    <Compile Include="Controls\ViewControllers.cs" />
+    <Compile Include="Controls\VoiceRecorder.cs" />
+    <Compile Include="CornersView.cs" />
+    <Compile Include="DividerView.cs" />
+    <Compile Include="DrawingCanvas.cs" />
+    <Compile Include="MonoView\Alert.cs" />
+    <Compile Include="MonoView\BrowserView.cs" />
+    <Compile Include="MonoView\Button.cs" />
+    <Compile Include="MonoView\CanvasView.cs" />
+    <Compile Include="MonoView\DatePicker.cs" />
+    <Compile Include="MonoView\EventRaiser.cs" />
+    <Compile Include="MonoView\GridCell.cs" />
+    <Compile Include="MonoView\GridView.cs" />
+    <Compile Include="MonoView\Image.cs" />
+    <Compile Include="MonoView\Label.cs" />
+    <Compile Include="MonoView\ListView.cs" />
+    <Compile Include="MonoView\Menu.cs" />
+    <Compile Include="MonoView\PasswordBox.cs" />
+    <Compile Include="MonoView\RichContentCell.cs" />
+    <Compile Include="MonoView\SearchBox.cs" />
+    <Compile Include="MonoView\SectionHeaderFooter.cs" />
+    <Compile Include="MonoView\SelectList.cs" />
+    <Compile Include="MonoView\Slider.cs" />
+    <Compile Include="MonoView\Switch.cs" />
+    <Compile Include="MonoView\TabView.cs" />
+    <Compile Include="MonoView\TextArea.cs" />
+    <Compile Include="MonoView\TextBox.cs" />
+    <Compile Include="MonoView\Timer.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="MonoView\Toolbar.cs" />
+    <Compile Include="MonoView\ToolbarItems.cs" />
+    <Compile Include="SplitView.cs" />
+    <Compile Include="TouchCompositor.cs" />
+    <Compile Include="TouchFactory.cs" />
+    <Compile Include="TouchSettingsDictionary.cs" />
+    <Compile Include="Extensions\UrlExtensions.cs" />
+    <Compile Include="Extensions\WebViewExtensions.cs" />
+    <Compile Include="Layers\LoginLayerExtensions.cs" />
+    <Compile Include="Extensions\UIViewExtensions.cs" />
+    <Compile Include="Controls\VideoPlayer.cs" />
+    <Compile Include="ModalManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Controls\Printer.cs" />
+    <Compile Include="MonoView\TabItem.cs" />
+    <Compile Include="VanityView.cs" />
+    <Compile Include="TableView.cs" />
+    <Compile Include="TouchInstructor.cs" />
+    <Compile Include="MonoView\PlatformDefaults.cs" />
+    <Compile Include="MonoView\TimePicker.cs" />
+    <Compile Include="MonoView\ImageData.cs" />
+    <Compile Include="Extensions\StyleExtensions.cs" />
+    <Compile Include="Integrations\GeoLocation.cs" />
+    <Compile Include="Integrations\Compass.cs" />
+    <Compile Include="Integrations\Accelerometer.cs" />
+    <Compile Include="Controls\CameraScanSplitView.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\backIcon.png">
+      <LogicalName>backIcon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars0.5.png">
+      <LogicalName>stars0.5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars0.png">
+      <LogicalName>stars0.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars1.5.png">
+      <LogicalName>stars1.5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars1.png">
+      <LogicalName>stars1.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars2.5.png">
+      <LogicalName>stars2.5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars2.png">
+      <LogicalName>stars2.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars3.5.png">
+      <LogicalName>stars3.5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars3.png">
+      <LogicalName>stars3.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars4.5.png">
+      <LogicalName>stars4.5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars4.png">
+      <LogicalName>stars4.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars5.png">
+      <LogicalName>stars5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\forwardIcon.png">
+      <LogicalName>forwardIcon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\loginButton.png">
+      <LogicalName>loginButton.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\loginButton%402x.png">
+      <LogicalName>loginButton@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\scannerButton.png">
+      <DeployService-Deploy>True</DeployService-Deploy>
+      <LogicalName>scannerButton.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\menuIcon.png">
+      <LogicalName>menuIcon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\backIcon%402x.png">
+      <LogicalName>backIcon@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\forwardIcon%402x.png">
+      <LogicalName>forwardIcon@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\menuIcon%402x.png">
+      <LogicalName>menuIcon@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\scannerBackground.png">
+      <LogicalName>scannerBackground.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\scannerBackground%402x.png">
+      <LogicalName>scannerBackground@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\scannerButton%402x.png">
+      <LogicalName>scannerButton@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars0.5%402x.png">
+      <LogicalName>stars0.5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars0%402x.png">
+      <LogicalName>stars0@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars1.5%402x.png">
+      <LogicalName>stars1.5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars1%402x.png">
+      <LogicalName>stars1@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars2.5%402x.png">
+      <LogicalName>stars2.5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars2%402x.png">
+      <LogicalName>stars2@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars3.5%402x.png">
+      <LogicalName>stars3.5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars3%402x.png">
+      <LogicalName>stars3@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars4.5%402x.png">
+      <LogicalName>stars4.5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars4%402x.png">
+      <LogicalName>stars4@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\stars5%402x.png">
+      <LogicalName>stars5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-scanblocked-sm.png">
+      <LogicalName>barcode-scanblocked-sm.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-scanblocked-sm%402x.png">
+      <LogicalName>barcode-scanblocked-sm@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon.png">
+      <LogicalName>barcode-icon.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon%402x.png">
+      <LogicalName>barcode-icon@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon1.png">
+      <LogicalName>barcode-icon1.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon1%402x.png">
+      <LogicalName>barcode-icon1@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon2.png">
+      <LogicalName>barcode-icon2.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon2%402x.png">
+      <LogicalName>barcode-icon2@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon-max-count.png">
+      <LogicalName>barcode-icon-max-count.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon-max-count%402x.png">
+      <LogicalName>barcode-icon-max-count@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon10.png">
+      <LogicalName>barcode-icon10.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon10%402x.png">
+      <LogicalName>barcode-icon10@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon11.png">
+      <LogicalName>barcode-icon11.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon11%402x.png">
+      <LogicalName>barcode-icon11@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon12.png">
+      <LogicalName>barcode-icon12.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon12%402x.png">
+      <LogicalName>barcode-icon12@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon13.png">
+      <LogicalName>barcode-icon13.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon13%402x.png">
+      <LogicalName>barcode-icon13@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon14.png">
+      <LogicalName>barcode-icon14.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon14%402x.png">
+      <LogicalName>barcode-icon14@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon15.png">
+      <LogicalName>barcode-icon15.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon15%402x.png">
+      <LogicalName>barcode-icon15@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon16.png">
+      <LogicalName>barcode-icon16.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon16%402x.png">
+      <LogicalName>barcode-icon16@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon17.png">
+      <LogicalName>barcode-icon17.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon17%402x.png">
+      <LogicalName>barcode-icon17@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon18.png">
+      <LogicalName>barcode-icon18.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon18%402x.png">
+      <LogicalName>barcode-icon18@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon19.png">
+      <LogicalName>barcode-icon19.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon19%402x.png">
+      <LogicalName>barcode-icon19@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon20.png">
+      <LogicalName>barcode-icon20.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon20%402x.png">
+      <LogicalName>barcode-icon20@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon3.png">
+      <LogicalName>barcode-icon3.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon3%402x.png">
+      <LogicalName>barcode-icon3@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon4.png">
+      <LogicalName>barcode-icon4.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon4%402x.png">
+      <LogicalName>barcode-icon4@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon5.png">
+      <LogicalName>barcode-icon5.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon5%402x.png">
+      <LogicalName>barcode-icon5@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon6.png">
+      <LogicalName>barcode-icon6.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon6%402x.png">
+      <LogicalName>barcode-icon6@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon7.png">
+      <LogicalName>barcode-icon7.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon7%402x.png">
+      <LogicalName>barcode-icon7@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon8.png">
+      <LogicalName>barcode-icon8.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon8%402x.png">
+      <LogicalName>barcode-icon8@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon9.png">
+      <LogicalName>barcode-icon9.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-icon9%402x.png">
+      <LogicalName>barcode-icon9@2x.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Images\barcode-overlay-sm%402x.png">
+      <LogicalName>barcode-overlay-sm@2x.png</LogicalName>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Images\barcode-overlay-sm.png">
+      <LogicalName>barcode-overlay-sm.png</LogicalName>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>
