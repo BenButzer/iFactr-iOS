@@ -9,7 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iFactr.UI.Debug", "iFactr.UI\iFactr.UI\iFactr.UI.Debug.csproj", "{B6D01164-1AA8-4652-8C63-7DA813CF6163}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Touch.Debug", "iFactr.UI\MonoCross\Utilities\MonoCross.Touch.Debug.csproj", "{E7B641DD-7F0A-4182-A19B-C2B7AD09D5A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross.Utilities.Touch.Debug", "iFactr.UI\MonoCross\Utilities\MonoCross.Utilities.Touch.Debug.csproj", "{E7B641DD-7F0A-4182-A19B-C2B7AD09D5A6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross", "iFactr.UI\MonoCross\MonoCross.csproj", "{4618CCFC-5895-4C44-AD25-8BF312A96B86}"
 EndProject
