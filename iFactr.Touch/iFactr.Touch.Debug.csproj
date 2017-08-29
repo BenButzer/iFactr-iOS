@@ -392,9 +392,9 @@
       <Project>{4618ccfc-5895-4c44-ad25-8bf312a96b86}</Project>
       <Name>MonoCross</Name>
     </ProjectReference>
-    <ProjectReference Include="..\iFactr.UI\MonoCross\Utilities\MonoCross.Utilities.Touch.Debug.csproj">
+    <ProjectReference Include="..\iFactr.UI\MonoCross\Utilities\MonoCross.Utilities.iOS.Debug.csproj">
       <Project>{e7b641dd-7f0a-4182-a19b-c2b7ad09d5a6}</Project>
-      <Name>MonoCross.Utilities.Touch.Debug</Name>
+      <Name>MonoCross.Utilities.iOS.Debug</Name>
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>

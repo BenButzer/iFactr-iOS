@@ -29,7 +29,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <MtouchLink>None</MtouchLink>
-    <DefineConstants>MONO TOUCH;PARTIAL_SIGN</DefineConstants>
+    <DefineConstants>MONO TOUCH</DefineConstants>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
@@ -51,7 +51,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <DefineConstants>MONO TOUCH;PARTIAL_SIGN</DefineConstants>
+    <DefineConstants>MONO TOUCH</DefineConstants>
     <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
     <DebugSymbols>True</DebugSymbols>
   </PropertyGroup>
@@ -62,8 +62,8 @@
     <Reference Include="MonoCross">
       <HintPath>..\iFactr.UI\MonoCross\Distribution\MonoCross.dll</HintPath>
     </Reference>
-    <Reference Include="MonoCross.Utilities.Touch">
-      <HintPath>..\iFactr.UI\MonoCross\Distribution\MonoCross.Utilities.Touch.dll</HintPath>
+    <Reference Include="MonoCross.Utilities.iOS">
+      <HintPath>..\iFactr.UI\MonoCross\Distribution\MonoCross.Utilities.iOS.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\iFactr.UI\MonoCross\Distribution\Newtonsoft.Json.dll</HintPath>
