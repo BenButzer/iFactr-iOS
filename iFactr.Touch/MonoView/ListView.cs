@@ -1055,15 +1055,15 @@ namespace iFactr.Touch
 
             public override nfloat EstimatedHeight(UITableView tableView, NSIndexPath indexPath)
             {
-                return ListView.cellHeights.GetValueOrDefault(indexPath, tableView.EstimatedRowHeight);
+                return ((IDictionary<NSIndexPath, nfloat>)ListView.cellHeights).GetValueOrDefault(indexPath, tableView.EstimatedRowHeight);
             }
 
             public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
             {
-                var cell = ListView.cells.GetValueOrDefault(indexPath);
+                var cell = ((IDictionary<NSIndexPath, UITableViewCell>)ListView.cells).GetValueOrDefault(indexPath);
                 if (cell == null)
                 {
-                    return ListView.cellHeights.GetValueOrDefault(indexPath, tableView.EstimatedRowHeight);
+                    return ((IDictionary<NSIndexPath, nfloat>)ListView.cellHeights).GetValueOrDefault(indexPath, tableView.EstimatedRowHeight);
                 }
 
                 var rich = cell as IRichContentCell;
