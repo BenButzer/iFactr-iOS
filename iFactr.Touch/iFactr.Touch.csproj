@@ -2,6 +2,7 @@
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <BuildVersion Condition=" '$(BuildVersion)' == '' ">11.0.1</BuildVersion>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectGuid>{0D895056-D0CB-4006-A5D2-B5B74CAB2C11}</ProjectGuid>
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -407,7 +408,7 @@
       <Output TaskParameter="ConsoleOutput" PropertyName="CommitHash" />
     </Exec>
     <PropertyGroup>
-      <AssemblyVersion>10.0.0.$(BuildRev)</AssemblyVersion>
+      <AssemblyVersion>$(BuildVersion).$(BuildRev)</AssemblyVersion>
       <FileVersion>$(AssemblyVersion)</FileVersion>
       <Version>$(AssemblyVersion)-$(Branch).$(CommitHash)</Version>
       <Copyright>Copyright ©  $([System.DateTime]::Now.ToString(`yyyy`))</Copyright>
