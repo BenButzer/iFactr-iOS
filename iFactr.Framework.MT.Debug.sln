@@ -1,11 +1,10 @@
-﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Framework", "Framework", "{BA6A827C-248E-4B70-952C-82CE336B0B3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "iFactr.UI.Debug", "iFactr.UI\iFactr.UI\iFactr.UI.Debug.csproj", "{B6D01164-1AA8-4652-8C63-7DA813CF6163}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "iFactr.UI.Debug", "iFactr.UI\iFactr.UI\iFactr.UI.Debug.csproj", "{B6D01164-1AA8-4652-8C63-7DA813CF6163}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoCross", "iFactr.UI\MonoCross\MonoCross.csproj", "{4618CCFC-5895-4C44-AD25-8BF312A96B86}"
 EndProject
