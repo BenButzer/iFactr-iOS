@@ -315,7 +315,7 @@ namespace iFactr.Touch
 				NSError error = null;
 				_captureSession = new AVCaptureSession();
                 CameraMetaDataDelegate del = null;
-				AVCaptureDevice captureDevice = AVCaptureDevice.DefaultDeviceWithMediaType(AVMediaType.Video);
+				AVCaptureDevice captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
 				if (captureDevice != null)
 				{
 					var videoInput = AVCaptureDeviceInput.FromDevice(captureDevice, out error);

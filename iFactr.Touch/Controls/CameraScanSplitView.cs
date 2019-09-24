@@ -198,7 +198,7 @@ namespace iFactr.Touch
                 AutoresizingMask = (UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleBottomMargin)
             };
             this._cameraView.Frame = frame;
-            AVCaptureDevice device = AVCaptureDevice.DefaultDeviceWithMediaType(AVMediaType.Video);
+            AVCaptureDevice device = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
             NSError nSError;
             AVCaptureDeviceInput aVCaptureDeviceInput = AVCaptureDeviceInput.FromDevice(device, out nSError);
             if (aVCaptureDeviceInput != null)
