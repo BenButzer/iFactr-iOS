@@ -9,6 +9,7 @@ using iFactr.UI.Controls;
 
 using Point = iFactr.UI.Point;
 using Size = iFactr.UI.Size;
+using Color = iFactr.UI.Color;
 
 namespace iFactr.Touch
 {
