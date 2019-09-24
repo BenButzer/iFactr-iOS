@@ -123,7 +123,7 @@ namespace iFactr.Touch
                 }
 
                 base.PopViewController(true);
-                return true;
+                return false;  // not regular pop
             }
 
             if (!regularPop)
