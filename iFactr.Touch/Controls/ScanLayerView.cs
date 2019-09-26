@@ -250,13 +250,13 @@ namespace iFactr.Touch
 
 			ModalManager.EnqueueModalTransition(TouchFactory.Instance.TopViewController, navCtrl, true);
 		}
-	
-		private class CameraScanController : ViewController
-		{
+
+        private class CameraScanController : ViewController
+        {
             private CameraScanLayer _layer;
             private Font _layerFont;
-			private Link _callback;
-			private string _barcodeValueKey;
+            private Link _callback;
+            private string _barcodeValueKey;
             private AVCaptureSession _captureSession;
             private UIImageView _imageOverlay;
             private UIImageView _imageOverlayScanBlocked;
@@ -265,13 +265,13 @@ namespace iFactr.Touch
             public int DuplicateWait = 1500;
 
             public CameraScanController(CameraScanLayer layer, Link callback, string parametersKey)
-			{				 
+            {
                 _layer = layer;
-				_callback = callback;
-				_barcodeValueKey = parametersKey;
+                _callback = callback;
+                _barcodeValueKey = parametersKey;
                 DuplicateWait = layer.DuplicateTimeout;
-//				Autorotate = TouchFactory.Instance.Platform == MobilePlatform.iPad;
-				ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+                //				Autorotate = TouchFactory.Instance.Platform == MobilePlatform.iPad;
+                ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
 
                 string fontName = null;
                 double fontSize = 12;
@@ -279,12 +279,12 @@ namespace iFactr.Touch
                 {
                     fontName = _layer.LayerStyle.DefaultLabelStyle.FontFamily;
                     fontSize = _layer.LayerStyle.DefaultLabelStyle.FontSize;
-                }                
+                }
                 if (!string.IsNullOrEmpty(fontName))
                 {
                     _layerFont = TouchStyle.ToFont(UIFont.FromName(fontName, LastValueScanOverlay.LabelFontSize));
                 }
-			}
+            }
 
             public void ScanOccurred(string barcode, int occurrences)
             {
@@ -306,41 +306,69 @@ namespace iFactr.Touch
                 _lastScanOverlay.SetBarcodeLabel(barcode, occurrences);
             }
 
-			public override void ViewDidLoad()
-			{
-				base.ViewDidLoad();
-				View.BackgroundColor = UIColor.Black;
-				
+            public override void ViewDidLoad()
+            {
+                base.ViewDidLoad();
+                View.BackgroundColor = UIColor.Black;
 
-				NSError error = null;
-				_captureSession = new AVCaptureSession();
+                NSError error = null;
+                _captureSession = new AVCaptureSession();
                 CameraMetaDataDelegate del = null;
-				AVCaptureDevice captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
-				if (captureDevice != null)
+
+                var authStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+                AVCaptureDevice captureDevice = null;
+            
+                // check authorization status
+                if (authStatus == AVAuthorizationStatus.Authorized)
+                {
+                    captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
+                }
+                else if (authStatus == AVAuthorizationStatus.NotDetermined)
+                {
+                    AVCaptureDevice.RequestAccessForMediaType(AVMediaType.Video, (granted) =>
+                    {
+                        if (!granted)
+                        {
+                            iApp.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType not granted!");
+                        }
+                        else
+                        {
+                            iApp.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType granted!");
+                        }
+                    });
+                }
+                else
+                {
+                    iApp.Log.Error("Not Authorized! Status: " + authStatus.ToString());
+                }
+                if (captureDevice != null)
 				{
-					var videoInput = AVCaptureDeviceInput.FromDevice(captureDevice, out error);
+                    var videoInput = AVCaptureDeviceInput.FromDevice(captureDevice, out error);
+                    if (videoInput != null)
+                    {
+                        _captureSession.AddInput(videoInput);
+                    }
+                    else
+                    {
+                        iApp.Log.Error("Video capture error: " + error.LocalizedDescription);
+                    }
 
-			    	if (videoInput != null) { _captureSession.AddInput(videoInput); }
-					else { iApp.Log.Error("Video capture error: " + error.LocalizedDescription); }
-			 
-					var metaDataOutput = new AVCaptureMetadataOutput();
+                    var metaDataOutput = new AVCaptureMetadataOutput();
 					_captureSession.AddOutput(metaDataOutput);
-                    
-					del = new CameraMetaDataDelegate(this, _layer);
-					metaDataOutput.SetDelegate(del, CoreFoundation.DispatchQueue.MainQueue);
-	
-					metaDataOutput.MetadataObjectTypes = metaDataOutput.AvailableMetadataObjectTypes;
-	
 
-//					int yLoc = 0;
-//					if (UIDevice.CurrentDevice.CheckSystemVersion(7, 0)) { yLoc = 20; }
-					
+                    del = new CameraMetaDataDelegate(this, _layer);
+					metaDataOutput.SetDelegate(del, CoreFoundation.DispatchQueue.MainQueue);
+                  
+                    //metaDataOutput.MetadataObjectTypes = metaDataOutput.AvailableMetadataObjectTypes;
+
+                    metaDataOutput.MetadataObjectTypes =  AVMetadataObjectType.QRCode | AVMetadataObjectType.Code128Code | AVMetadataObjectType.UPCECode | AVMetadataObjectType.EAN13Code ;   
+
+                    
                     _videoPreviewLayer = new AVCaptureVideoPreviewLayer(_captureSession) { 
                         Frame = View.Bounds,
                         Orientation = (AVCaptureVideoOrientation)InterfaceOrientation,
                     };
-					View.Layer.AddSublayer(_videoPreviewLayer);
-
+                    View.Layer.AddSublayer(_videoPreviewLayer);
                     var image = TouchStyle.ImageFromResource("barcode-overlay-sm.png");
                     _imageOverlay = new UIImageView(image)
                     {
@@ -349,7 +377,7 @@ namespace iFactr.Touch
                         AutoresizingMask = UIViewAutoresizing.FlexibleMargins,
                     };
                     View.Add(_imageOverlay);
-
+                  
                     // preload this, and display when scan event occurs
                     var imageScanBlocked = TouchStyle.ImageFromResource("barcode-scanblocked-sm.png");
                     _imageOverlayScanBlocked = new UIImageView(imageScanBlocked)
@@ -360,11 +388,12 @@ namespace iFactr.Touch
                         Hidden = true,
                     };
                     View.Add(_imageOverlayScanBlocked);
-				}
+                }
 				else
 				{
-					//TODO: Add "Scanner currently not active overlay Image"
-				}
+                    //TODO: Add "Scanner currently not active overlay Image"
+                    iApp.Log.Error("null capture device!");
+                }
 
                 nfloat startVerticalLoc = UIScreen.MainScreen.Bounds.Height- LastValueScanOverlay.ViewHeight;
                 _lastScanOverlay = new LastValueScanOverlay(startVerticalLoc, _layerFont);
@@ -385,7 +414,7 @@ namespace iFactr.Touch
                     iApp.Navigate(_callback);
                     ModalManager.EnqueueModalTransition(TouchFactory.Instance.TopViewController, null, true);
                 });
-			}
+            }
 
 			public override void ViewWillAppear(bool animated)
 			{

@@ -198,20 +198,47 @@ namespace iFactr.Touch
                 AutoresizingMask = (UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleBottomMargin)
             };
             this._cameraView.Frame = frame;
-            AVCaptureDevice device = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
-            NSError nSError;
-            AVCaptureDeviceInput aVCaptureDeviceInput = AVCaptureDeviceInput.FromDevice(device, out nSError);
-            if (aVCaptureDeviceInput != null)
-            {
-                this._captureSession = new AVCaptureSession();
-                this._captureSession.AddInput(aVCaptureDeviceInput);
-                AVCaptureMetadataOutput aVCaptureMetadataOutput = new AVCaptureMetadataOutput();
-                this._captureSession.AddOutput(aVCaptureMetadataOutput);
-                this._cameraMetaDataDelegate = new CameraScannerSplitView.CameraMetaDataDelegate(this);
-                aVCaptureMetadataOutput.SetDelegate(this._cameraMetaDataDelegate, DispatchQueue.MainQueue);
-                aVCaptureMetadataOutput.MetadataObjectTypes = aVCaptureMetadataOutput.AvailableMetadataObjectTypes;
-            }
+
             AVAuthorizationStatus authorizationStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+
+            if (authorizationStatus == AVAuthorizationStatus.Authorized)
+            {
+
+                AVCaptureDevice device = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
+                NSError nSError;
+                AVCaptureDeviceInput aVCaptureDeviceInput = AVCaptureDeviceInput.FromDevice(device, out nSError);
+                if (aVCaptureDeviceInput != null)
+                {
+                    this._captureSession = new AVCaptureSession();
+                    this._captureSession.AddInput(aVCaptureDeviceInput);
+                    AVCaptureMetadataOutput aVCaptureMetadataOutput = new AVCaptureMetadataOutput();
+                    this._captureSession.AddOutput(aVCaptureMetadataOutput);
+                    this._cameraMetaDataDelegate = new CameraScannerSplitView.CameraMetaDataDelegate(this);
+                    aVCaptureMetadataOutput.SetDelegate(this._cameraMetaDataDelegate, DispatchQueue.MainQueue);
+                    //aVCaptureMetadataOutput.MetadataObjectTypes = aVCaptureMetadataOutput.AvailableMetadataObjectTypes;
+                    aVCaptureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.QRCode | AVMetadataObjectType.Code128Code | AVMetadataObjectType.UPCECode | AVMetadataObjectType.EAN13Code;
+                }
+            }
+            else if (authorizationStatus == AVAuthorizationStatus.NotDetermined)
+            {
+                AVCaptureDevice.RequestAccessForMediaType(AVMediaType.Video, (granted) =>
+                {
+                    if (!granted)
+                    {
+                        Device.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType not granted!");
+                    }
+                    else
+                    {
+                        Device.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType granted!");
+                    }
+                });
+            }
+            else
+            {
+                Device.Log.Error("Not Authorized! Status: " + authorizationStatus.ToString());
+            }
+
+
             if (authorizationStatus >= AVAuthorizationStatus.NotDetermined && authorizationStatus <= AVAuthorizationStatus.Authorized)
             {
                 switch ((int)authorizationStatus)
