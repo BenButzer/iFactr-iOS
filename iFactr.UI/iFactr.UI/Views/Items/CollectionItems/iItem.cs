@@ -1,5 +1,6 @@
 ﻿using System;
 using iFactr.Core.Controls;
+using Link = iFactr.UI.Link;
 
 namespace iFactr.Core.Layers
 {

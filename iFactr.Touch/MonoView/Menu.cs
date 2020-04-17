@@ -11,6 +11,7 @@ using UIKit;
 
 using iFactr.Core;
 using iFactr.UI;
+using Color = iFactr.UI.Color;
 
 namespace iFactr.Touch
 {

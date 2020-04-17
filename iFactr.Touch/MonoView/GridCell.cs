@@ -377,10 +377,13 @@ namespace iFactr.Touch
 
             ContentView.Frame = new CGRect(0, 0, (float)size.Width, (float)size.Height);
             Frame = new CGRect(Frame.Location, new CGSize(Frame.Width, ContentView.Frame.Height));
-            
-            var disclosure = this.GetSubview<UIControl>(c => c.Description.StartsWith("<UITableViewCellDetailDisclosureView"));
+            // Checking subview for Disclosure - iOS 13 changed 2019 subview 
+            var disclosure = this.GetSubview<UIControl>(c => c.Description.StartsWith("<UITableViewCellDetailDisclosureView") || c.Description.StartsWith("<UIButton"));
+            var dlog = this.GetSubview<UIControl>();
+          
             if (disclosure != null)
             {
+                //Setting Disclosure button (i) event 
                 disclosure.TouchUpInside -= SelectAccessory;
                 disclosure.TouchUpInside += SelectAccessory;
             }
