@@ -26,6 +26,13 @@ namespace iFactr.UI
         /// </summary>
         public Label SubtextLabel { get; private set; }
 
+        // S-102769 - Combined Patient Search results page - June 19, 2023
+        /// <summary>
+        /// Gets a predefined label control for displaying any secondary textual data in the cell.
+        /// This label typically appears underneath the <see cref="P:TextLabel"/>.
+        /// </summary>
+        public Label SubSourcetextLabel { get; private set; }
+
         /// <summary>
         /// Gets a predefined label control for displaying data values.
         /// This label typically appears to the right of the <see cref="P:TextLabel"/>.
@@ -41,6 +48,9 @@ namespace iFactr.UI
 
             Rows.Add(Row.AutoSized);
             Rows.Add(Row.AutoSized);
+            // S-102769 - Combined Patient Search results page - June 19, 2023
+            Rows.Add(Row.AutoSized);
+
             Columns.Add(Column.AutoSized);
             Columns.Add(Column.OneStar);
             Columns.Add(Column.AutoSized);
@@ -72,6 +82,18 @@ namespace iFactr.UI
             SubtextLabel.ForegroundColor = iApp.Instance.Style.SubTextColor;
             SubtextLabel.Lines = 1;
             AddChild(SubtextLabel);
+
+            // S-102769 - Combined Patient Search results page - June 19, 2023
+            SubSourcetextLabel = new Label();
+            SubSourcetextLabel.Font = Font.PreferredSmallFont;
+            SubSourcetextLabel.RowIndex = 2;
+            SubSourcetextLabel.ColumnIndex = 1;
+            SubSourcetextLabel.ColumnSpan = 2;
+            SubSourcetextLabel.HorizontalAlignment = HorizontalAlignment.Left;
+            SubSourcetextLabel.VerticalAlignment = VerticalAlignment.Center;
+            SubSourcetextLabel.ForegroundColor = iApp.Instance.Style.SubTextColor;
+            SubSourcetextLabel.Lines = 1;
+            AddChild(SubSourcetextLabel);
 
             ValueLabel = new Label();
             ValueLabel.Font = Font.PreferredValueFont;
@@ -119,6 +141,10 @@ namespace iFactr.UI
             ValueLabel.RowIndex = 0;
 
             SubtextLabel.RowIndex = 1;
+            ValueLabel.ColumnIndex = 2;
+
+            // S-102769 - Combined Patient Search results page - June 19, 2023
+            SubSourcetextLabel.RowIndex = 2;
             ValueLabel.ColumnIndex = 2;
         }
     }
