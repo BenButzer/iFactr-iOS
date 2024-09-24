@@ -19,6 +19,14 @@ namespace iFactr.Core.Layers
         /// </summary>
         /// <value>The subtext as a <see cref="String"/> value.</value>
         public string Subtext { get; set; }
+
+        // S-102769 - Combined Patient Search results page - June 19, 2023
+        /// <summary>
+        /// Gets or sets the sub secondary display text for this instance.
+        /// </summary>
+        /// <value>The subtext as a <see cref="String"/> value.</value>
+        public string SubSourcetext { get; set; }
+
         /// <summary>
         /// Gets or sets an icon to display next to the text for this instance.
         /// </summary>
@@ -34,6 +42,24 @@ namespace iFactr.Core.Layers
         /// </summary>
         /// <value>The button as a <see cref="Button"/>.</value>
         public Button Button { get; set; }
+
+        /// <summary>
+        /// Gets or sets the TextColor for this instance.
+        /// </summary>
+        /// <value>The text as a <see cref="String"/> value.</value>
+        public string TextColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the SubTextColor for this instance.
+        /// </summary>
+        /// <value>The text as a <see cref="String"/> value.</value>
+        public string SubTextColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the FontFormat for this instance.
+        /// </summary>
+        /// <value>The text as a <see cref="String"/> value.</value>
+        public string FontFormat { get; set; }
 
         /// <summary>
         /// Creates a deep-copy clone of this instance.
@@ -113,6 +139,22 @@ namespace iFactr.Core.Layers
         {
             Text = text;
             Subtext = subText;
+            Link = new Link { Address = linkAddress };
+        }
+
+        // S-102769 - Combined Patient Search results page - June 19, 2023
+        /// <summary>
+        /// Initializes a new instance of the <see cref="iItem"/> class using the link address, text, and subtext provided.
+        /// </summary>
+        /// <param name="linkAddress">A <see cref="String"/> representing the link address to navigate to when selected.</param>
+        /// <param name="text">A <see cref="String"/> representing the text value.</param>
+        /// <param name="subText">A <see cref="String"/> representing the subtext value.</param>s
+        /// <param name="subSourceText">A <see cref="String"/> representing the subtext value.</param>
+        public iItem(string linkAddress, string text, string subText, string subSourceText)
+        {
+            Text = text;
+            Subtext = subText;
+            SubSourcetext = subSourceText;
             Link = new Link { Address = linkAddress };
         }
 
