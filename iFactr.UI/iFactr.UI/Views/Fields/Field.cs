@@ -25,6 +25,11 @@ namespace iFactr.Core.Forms
         /// <value><c>true</c> if in focus; otherwise <c>false</c>.</value>
         public bool Focus { get; set; }
         /// <summary>
+        /// Gets or sets whether this instance is in enabled.
+        /// </summary>
+        /// <value><c>true</c> if in enabled; otherwise <c>false</c>.</value>
+        public bool IsEnabled { get; set; }
+        /// <summary>
         /// Gets or sets the label text to display.
         /// </summary>
         /// <value>The label as a <see cref="String"/> value.</value>
