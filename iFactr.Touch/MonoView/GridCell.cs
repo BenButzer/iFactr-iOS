@@ -372,11 +372,33 @@ namespace iFactr.Touch
                     Accessory == UITableViewCellAccessory.DisclosureIndicator ? 20 : 0);
             }
 
+            // Oct 2022 identified as site of Crash in Crashlytics running down to Label.SetLocation Fatal Exception: CALayerInvalidGeometry, which indicates 0/0 is a NaN
             width = Math.Max(width, 0);
             var size = this.PerformLayout(new iFactr.UI.Size(width, Math.Max(MinHeight - 1, 0)), new iFactr.UI.Size(width, Math.Max(MaxHeight - 1, 0)));
 
-            ContentView.Frame = new CGRect(0, 0, (float)size.Width, (float)size.Height);
-            Frame = new CGRect(Frame.Location, new CGSize(Frame.Width, ContentView.Frame.Height));
+            // Defensive code from label.cs bringing here for mSTAR 5.9.1 Crashlytics pinpoint, Story 101663, INC8885720
+            if (size != null)
+            {
+                double z = 0;
+                if (double.IsNaN(size.Width) || double.IsInfinity(size.Width))
+                { size.Width = z; }
+                if (double.IsNaN(size.Height) || double.IsInfinity(size.Height))
+                { size.Height = z; }
+
+                ContentView.Frame = new CGRect(0, 0, (float)size.Width, (float)size.Height);
+                
+            }
+            if (Frame != null && Frame.Location != null)
+            {
+                nfloat w = 0;
+                nfloat h = 0;
+                if (!(double.IsNaN(Frame.Width) || double.IsInfinity(Frame.Width)))
+                { w = Frame.Width; }
+                if (!(double.IsNaN(ContentView.Frame.Height) || double.IsInfinity(ContentView.Frame.Height)))
+                { h = ContentView.Frame.Height; }
+                Frame = new CGRect(Frame.Location, new CGSize(w, h));
+            }
+
             // Checking subview for Disclosure - iOS 13 changed 2019 subview 
             var disclosure = this.GetSubview<UIControl>(c => c.Description.StartsWith("<UITableViewCellDetailDisclosureView") || c.Description.StartsWith("<UIButton"));
             var dlog = this.GetSubview<UIControl>();

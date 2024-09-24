@@ -465,7 +465,22 @@ namespace iFactr.Touch
         
         public void SetLocation(Point location, Size size)
         {
-            Frame = new CGRect((float)location.X, (float)location.Y, (float)size.Width, (float)size.Height);
+            // Crashlytics Oct 2022 Fatal Exception: CALayerInvalidGeometry defensive code IsNan result of 0/0 IsInfinity result of any other n/0
+            // Ultimately is is the responsibility up the call stack, but I see a couple of questionable but scary pieces of code in Gridcell 
+            if ((location != null) && (size != null))
+            {
+                double z = 0;
+                if (double.IsNaN(location.X) || double.IsInfinity(location.X))
+                { location.X = z; }
+                if (double.IsNaN(location.Y) || double.IsInfinity(location.Y))
+                { location.Y = z; }
+                if (double.IsNaN(size.Width) || double.IsInfinity(size.Width))
+                { size.Width = z; }
+                if (double.IsNaN(size.Height) || double.IsInfinity(size.Height))
+                { size.Height = z; }
+
+                Frame = new CGRect((float)location.X, (float)location.Y, (float)size.Width, (float)size.Height);
+            }
         }
 
         public void NullifyEvents()
