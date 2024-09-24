@@ -60,20 +60,20 @@ namespace iFactr.UI.Controls
 			get { return NativeControl.BackgroundColor; }
 			set { NativeControl.BackgroundColor = value; }
 		}
-		
+
         /// <summary>
         /// Gets or sets the font to be used when rendering the button's title.
         /// </summary>
-		public Font Font
-		{
-			get { return NativeControl.Font; }
-			set { NativeControl.Font = value; }
-		}
-		
+        public Font Font
+        {
+            get { return NativeControl.Font; }
+            set { NativeControl.Font = value; }
+        }
+
         /// <summary>
         /// Gets or sets the color of the button's foreground content.
         /// </summary>
-		public Color ForegroundColor
+        public Color ForegroundColor
 		{
 			get { return NativeControl.ForegroundColor; }
 			set { NativeControl.ForegroundColor = value; }

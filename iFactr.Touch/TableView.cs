@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 using CoreAnimation;
 using CoreGraphics;
@@ -13,6 +14,7 @@ namespace iFactr.Touch
 {
     public class TableView : UIScrollView
     {
+
         public TableViewSource Source
         {
             get { return source; }
@@ -59,7 +61,7 @@ namespace iFactr.Touch
                 nfloat minHeight = (Frame.Height - (base.ContentInset.Top + base.ContentInset.Bottom)) + 1;
                 if (base.ContentSize.Height > trueContentSize.Height || trueContentSize.Height < minHeight)
                 {
-                    base.ContentSize = new CGSize(ContentSize.Width, NMath.Max(trueContentSize.Height, minHeight));
+                    base.ContentSize = new CGSize(ContentSize.Width, Math.Max(trueContentSize.Height, minHeight));
                 }
             }
         }
@@ -535,7 +537,7 @@ namespace iFactr.Touch
 
         public override void InsertSubview(UIView view, nint atIndex)
         {
-            base.InsertSubview(view, NMath.Max(atIndex, 1));
+            base.InsertSubview(view, Math.Max(atIndex, 1));
         }
 
         public override void SendSubviewToBack(UIView view)
@@ -590,7 +592,7 @@ namespace iFactr.Touch
         {
             keyboardVisible = true;
             
-            var value = notification.UserInfo.ValueForKey(UIKeyboard.BoundsUserInfoKey) as NSValue;
+            var value = notification.UserInfo.ValueForKey(UIKeyboard.FrameBeginUserInfoKey) as NSValue;
             if (value == null)
             {
                 return;
@@ -626,7 +628,7 @@ namespace iFactr.Touch
             }
             else if (frame.Y - 10 < ContentOffset.Y + ContentInset.Top)
             {
-                SetContentOffset(new CGPoint(ContentOffset.X, NMath.Max(frame.Y - ContentInset.Top - 10, -ContentInset.Top)), true);
+                SetContentOffset(new CGPoint(ContentOffset.X, Math.Max(frame.Y - ContentInset.Top - 10, -ContentInset.Top)), true);
             }
         }
 
@@ -668,7 +670,7 @@ namespace iFactr.Touch
                 }
                 else if (frame.Y - 10 < ContentOffset.Y + ContentInset.Top)
                 {
-                    SetContentOffset(new CGPoint(ContentOffset.X, NMath.Max(frame.Y - ContentInset.Top - 10, -ContentInset.Top)), true);
+                    SetContentOffset(new CGPoint(ContentOffset.X, Math.Max(frame.Y - ContentInset.Top - 10, -ContentInset.Top)), true);
                 }
             }
         }
@@ -788,7 +790,7 @@ namespace iFactr.Touch
                         if (section.Header == null)
                         {
                             GetHeaderAndFooter(sectionIndex);
-                            lastY = NMath.Max(lastY, section.Header.Frame.Bottom);
+                            lastY = (NFloat)Math.Max(lastY, section.Header.Frame.Bottom);
                         }
                         
                         if (lastY > ContentOffset.Y + Frame.Height)
@@ -878,7 +880,7 @@ namespace iFactr.Touch
                         if (section.Footer == null)
                         {
                             GetHeaderAndFooter(sectionIndex);
-                            firstY = NMath.Min(firstY, section.Footer.Frame.Bottom);
+                            firstY = (NFloat)Math.Min(firstY, section.Footer.Frame.Bottom);
                         }
                         
                         if (visibleSections.FirstOrDefault() != section)
@@ -1420,14 +1422,14 @@ namespace iFactr.Touch
                 }
                 else
                 {
-                    frame.Y = NMath.Max(tableView.Top, Y);
+                    frame.Y = (NFloat)Math.Max(tableView.Top, Y);
                     if (Footer == null)
                     {
-                        frame.Y = NMath.Min(frame.Y, Y + Height - frame.Height);
+                        frame.Y = (NFloat)Math.Min(frame.Y, Y + Height - frame.Height);
                     }
                     else
                     {
-                        frame.Y = NMath.Min(frame.Y, Footer.Frame.Y - frame.Height);
+                        frame.Y = (NFloat)Math.Min(frame.Y, Footer.Frame.Y - frame.Height);
                     }
                 }
 
@@ -1462,14 +1464,14 @@ namespace iFactr.Touch
                 }
                 else
                 {
-                    frame.Y = NMath.Min(tableView.Bottom - frame.Height, Y + Height - frame.Height);
+                    frame.Y = (NFloat)Math.Min(tableView.Bottom - frame.Height, Y + Height - frame.Height);
                     if (Header == null)
                     {
-                        frame.Y = NMath.Max(frame.Y, Y);
+                        frame.Y = (NFloat)Math.Max(frame.Y, Y);
                     }
                     else
                     {
-                        frame.Y = NMath.Max(frame.Y, Header.Frame.Bottom);
+                        frame.Y = (NFloat)Math.Max(frame.Y, Header.Frame.Bottom);
                     }
                 }
 

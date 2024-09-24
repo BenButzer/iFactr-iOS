@@ -53,7 +53,9 @@ namespace iFactr.Touch
                     NSArray array = (NSArray)item.Value;
                     for (uint i = 0; i < array.Count; i++)
                     {
-                        this[key] += new NSObject(array.ValueAt(i)).ToString();
+                        // Microsoft.iOS Conversion: 
+                        var nno = array.ValueAt(i).ToString();   // replace NSObject in Microsoft.iOS Conversion
+                        this[key] += nno;
                         if (i < array.Count - 1)
                         {
                             this[key] += "|";

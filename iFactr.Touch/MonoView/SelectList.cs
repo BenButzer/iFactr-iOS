@@ -61,16 +61,16 @@ namespace iFactr.Touch
                 }
             }
         }
-
-       	public new Font Font
+        // Microsoft.iOS Conversion: Font goes to TitleLabel
+        public new Font Font
         {
-            get { return base.Font.ToFont(); }
+            get { return base.TitleLabel.Font.ToFont(); }
             set
             {
                 var font = value.ToUIFont();
-                if (font != base.Font)
+                if (font != base.TitleLabel.Font)
                 {
-                    base.Font = value.ToUIFont();
+                    base.TitleLabel.Font = value.ToUIFont();
 
                     var handler = PropertyChanged;
                     if (handler != null)
@@ -559,33 +559,53 @@ namespace iFactr.Touch
                 selectedIndex = list.SelectedIndex;
                 font = list.Font.ToUIFont();
             }
-            
+
             public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
             {
-                var cell = tableView.DequeueReusableCell(ekey);
+                var cell = tableView.DequeueReusableCell("cellKey");
                 if (cell == null)
                 {
-                    cell = new UITableViewCell(UITableViewCellStyle.Value1, ekey);
+                    cell = new UITableViewCell(UITableViewCellStyle.Default, "cellKey");
+                    cell.TextLabel.Lines = 0; // Allows multiple lines
+                    cell.TextLabel.LineBreakMode = UILineBreakMode.WordWrap; // Enables word wrapping
                 }
-                
+
                 if (indexPath.Row >= values.Count() || indexPath.Row < 0)
                     return cell;
-                
-                cell.Accessory = indexPath.Row == selectedIndex ?
-                    UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
-                
+
+                cell.Accessory = indexPath.Row == selectedIndex ? UITableViewCellAccessory.Checkmark : UITableViewCellAccessory.None;
+
                 var value = values.ElementAt(indexPath.Row);
                 cell.TextLabel.Text = value == null ? null : value.ToString();
-                cell.TextLabel.Font = font;
-                
+                cell.TextLabel.TextAlignment = UITextAlignment.Left;
+                cell.TextLabel.Font = UIFont.SystemFontOfSize(17);
+
                 return cell;
             }
-            
+
             public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
             {
-                return 44f;
+                // Retrieve the text for the cell at the given indexPath
+                NSString text = (NSString)(values.ElementAt(indexPath.Row)?.ToString() ?? "");
+
+                // Define the font and the width constraints
+                UIFont font = UIFont.SystemFontOfSize(17); // Use the font used in the cell
+                nfloat maxWidth = tableView.Bounds.Width - 30; // Adjust based on your cell's padding/margins
+
+                // Calculate the height of the text
+                nfloat height = HeightForText(text, font, maxWidth);
+
+                // Ensure a minimum height
+                return (nfloat)Math.Max(height, 44);
             }
-            
+
+            private nfloat HeightForText(NSString text, UIFont font, nfloat width)
+            {
+                var constraintSize = new CoreGraphics.CGSize(width, nfloat.MaxValue);
+                var boundingBox = text.GetBoundingRect(constraintSize, NSStringDrawingOptions.UsesLineFragmentOrigin, new UIStringAttributes { Font = font }, null);
+                return (nfloat)Math.Ceiling(boundingBox.Height) + 20; // Add padding as needed
+            }
+
             public override nint RowsInSection(UITableView tableview, nint section)
             {
                 return values == null ? 0 : values.Count();

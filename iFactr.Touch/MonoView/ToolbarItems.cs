@@ -136,22 +136,25 @@ namespace iFactr.Touch
 	{
         public event PropertyChangedEventHandler PropertyChanged;
 
-		public Color ForegroundColor
+        public Color ForegroundColor
 		{
-			get { return GetTitleTextAttributes(UIControlState.Normal).TextColor.ToColor(); }
-            set
-            {
-                if (value != GetTitleTextAttributes(UIControlState.Normal).TextColor.ToColor())
-                {
-                    SetTitleTextAttributes(new UITextAttributes() { TextColor = value.ToUIColor() }, UIControlState.Normal);
+			get
+			{
+				return GetTitleTextAttributes(UIControlState.Normal).ForegroundColor.ToColor();
+			}
+			set
+			{
+				if (value != GetTitleTextAttributes(UIControlState.Normal).ForegroundColor.ToColor())
+				{
+					SetTitleTextAttributes(new UIStringAttributes() { ForegroundColor = value.ToUIColor() }, UIControlState.Normal);
 
-                    var handler = PropertyChanged;
-                    if (handler != null)
-                    {
-                        handler(this, new PropertyChangedEventArgs("ForegroundColor"));
-                    }
-                }
-            }
+					var handler = PropertyChanged;
+					if (handler != null)
+					{
+						handler(this, new PropertyChangedEventArgs("ForegroundColor"));
+					}
+				}
+			}
 		}
 
 		public IPairable Pair

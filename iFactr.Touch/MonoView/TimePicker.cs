@@ -60,16 +60,16 @@ namespace iFactr.Touch
                 }
             }
         }
-        
+        // Microsoft.iOS Conversion: Font moved to TitleLabel
         public new Font Font
         {
-            get { return base.Font.ToFont(); }
+            get { return base.TitleLabel.Font.ToFont(); }
             set
             {
                 var font = value.ToUIFont();
-                if (font != base.Font)
+                if (font != base.TitleLabel.Font)
                 {
-                    base.Font = value.ToUIFont();
+                    base.TitleLabel.Font = value.ToUIFont();
 
                     var handler = PropertyChanged;
                     if (handler != null)

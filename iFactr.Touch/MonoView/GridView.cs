@@ -655,7 +655,7 @@ namespace iFactr.Touch
             keyboardVisible = true;
             
             NSObject value = null;
-            notification.UserInfo.TryGetValue(UIKeyboard.BoundsUserInfoKey, out value);
+            notification.UserInfo.TryGetValue(UIKeyboard.FrameBeginUserInfoKey, out value);
             if (value == null)
             {
                 return;
@@ -693,7 +693,7 @@ namespace iFactr.Touch
             }
             else if (frame.Y - 10 < ScrollView.ContentOffset.Y + ScrollView.ContentInset.Top)
             {
-                ScrollView.SetContentOffset(new CGPoint(ScrollView.ContentOffset.X, NMath.Max(frame.Y - ScrollView.ContentInset.Top - 10, -ScrollView.ContentInset.Top)), true);
+                ScrollView.SetContentOffset(new CGPoint(ScrollView.ContentOffset.X, Math.Max(frame.Y - ScrollView.ContentInset.Top - 10, -ScrollView.ContentInset.Top)), true);
             }
         }
 
@@ -737,7 +737,7 @@ namespace iFactr.Touch
                 }
                 else if (frame.Y - 10 < ScrollView.ContentOffset.Y + ScrollView.ContentInset.Top)
                 {
-                    ScrollView.SetContentOffset(new CGPoint(ScrollView.ContentOffset.X, NMath.Max(frame.Y - ScrollView.ContentInset.Top - 10, -ScrollView.ContentInset.Top)), true);
+                    ScrollView.SetContentOffset(new CGPoint(ScrollView.ContentOffset.X, Math.Max(frame.Y - ScrollView.ContentInset.Top - 10, -ScrollView.ContentInset.Top)), true);
                 }
             }
         }

@@ -13,6 +13,7 @@ using iFactr.UI;
 using iFactr.UI.Controls;
 
 using Size = iFactr.UI.Size;
+using System.Runtime.InteropServices;
 
 namespace iFactr.Touch
 {
@@ -811,7 +812,7 @@ namespace iFactr.Touch
         {
             keyboardVisible = true;
 
-            var value = notification.UserInfo.ValueForKey(UIKeyboard.BoundsUserInfoKey) as NSValue;
+            var value = notification.UserInfo.ValueForKey(UIKeyboard.FrameBeginUserInfoKey) as NSValue;
             if (value == null)
             {
                 return;
@@ -839,7 +840,7 @@ namespace iFactr.Touch
             else if (frame.Y - 10 < TableView.ContentOffset.Y + TableView.ContentInset.Top)
             {
                 TableView.SetContentOffset(new CGPoint(TableView.ContentOffset.X,
-                    NMath.Max(frame.Y - TableView.ContentInset.Top - 10, -TableView.ContentInset.Top)), false);
+                    Math.Max(frame.Y - TableView.ContentInset.Top - 10, -TableView.ContentInset.Top)), false);
             }
         }
 
@@ -881,7 +882,7 @@ namespace iFactr.Touch
                 else if (frame.Y - 10 < TableView.ContentOffset.Y + TableView.ContentInset.Top)
                 {
                     TableView.SetContentOffset(new CGPoint(TableView.ContentOffset.X,
-                        NMath.Max(frame.Y - TableView.ContentInset.Top - 10, -TableView.ContentInset.Top)), true);
+                        Math.Max(frame.Y - TableView.ContentInset.Top - 10, -TableView.ContentInset.Top)), true);
                 }
             }
         }
@@ -947,7 +948,7 @@ namespace iFactr.Touch
 
                 view.TextLabel.Lines = 0;
 
-                return NMath.Max(section == 0 ? 56 : 38,
+                return (NFloat)Math.Max(section == 0 ? 56 : 38,
                     view.TextLabel.SizeThatFits(new CGSize(tableView.Frame.Width - 76, tableView.Frame.Height)).Height + 15);
             }
 
@@ -1011,7 +1012,7 @@ namespace iFactr.Touch
 
                 view.TextLabel.Lines = 0;
 
-                return NMath.Max(section == ListView.Sections.Count - 1 ? 48 : 30,
+                return (NFloat)Math.Max(section == ListView.Sections.Count - 1 ? 48 : 30,
                     view.TextLabel.SizeThatFits(new CGSize(tableView.Frame.Width - 76, tableView.Frame.Height)).Height + 15);
             }
 
@@ -1844,7 +1845,7 @@ namespace iFactr.Touch
                 {
                     View.Layer.RemoveObserver(this, new NSString("bounds"));
                 }
-                catch (MonoTouchException) { }
+                catch (Exception) { }
             });
         }
 

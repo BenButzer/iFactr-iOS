@@ -4,7 +4,7 @@ using iFactr.UI;
 
 namespace iFactr.Touch
 {
-	public class Timer : System.Timers.Timer, ITimer
+	public class Timer : System.Timers.Timer, iFactr.UI.ITimer
 	{
 		public new event EventHandler Elapsed;
 

@@ -405,7 +405,7 @@ namespace iFactr.Touch
                 {
                     TabBar.Layer.RemoveObserver(this, new NSString("bounds"));
                 }
-                catch (MonoTouchException) { }
+                catch (Exception) { }
             });
 
             base.Dispose(disposing);

@@ -533,7 +533,7 @@ namespace iFactr.Touch
             Register<ITabItem>(typeof(Touch.TabItem));
             Register<ISearchBox>(typeof(Touch.SearchBox));
             Register<IAlert>(UIDevice.CurrentDevice.CheckSystemVersion(8, 0) ? typeof(Touch.Alert) : typeof(Touch.AlertLegacy));
-            Register<ITimer>(typeof(Touch.Timer));
+            Register<iFactr.UI.ITimer>(typeof(Touch.Timer));
         }
 
         protected override void OnOutputView(IMXView view)

@@ -40,23 +40,23 @@ namespace iFactr.Touch
             }
         }
 
-//        public Color BorderColor
-//        {
-//            get { return Layer.BorderColor.ToColor(); }
-//            set
-//            {
-//                if (value != BorderColor)
-//                {
-//                    Layer.BorderColor = value.ToCGColor();
-//
-//                    var handler = PropertyChanged;
-//                    if (handler != null)
-//                    {
-//                        handler(this, new PropertyChangedEventArgs("BorderColor"));
-//                    }
-//                }
-//            }
-//        }
+        public Color BorderColor
+        {
+            get { return Layer.BorderColor.ToColor(); }
+            set
+            {
+                if (value != BorderColor)
+                {
+                    Layer.BorderColor = value.ToCGColor();
+
+                    var handler = PropertyChanged;
+                    if (handler != null)
+                    {
+                        handler(this, new PropertyChangedEventArgs("BorderColor"));
+                    }
+                }
+            }
+        }
 
         public Color ForegroundColor
         {
@@ -279,15 +279,16 @@ namespace iFactr.Touch
         }
         private Visibility visibility;
 
+        // Microsoft.iOS Conversion: move font (deprecated) onto TitleLabel
         public new Font Font
         {
-            get { return base.Font.ToFont(); }
+            get { return base.TitleLabel.Font.ToFont(); }
             set
             {
                 var font = value.ToUIFont();
-                if (font != base.Font)
+                if (font != base.TitleLabel.Font)
                 {
-                    base.Font = value.ToUIFont();
+                    base.TitleLabel.Font = value.ToUIFont();
 
                     var handler = PropertyChanged;
                     if (handler != null)

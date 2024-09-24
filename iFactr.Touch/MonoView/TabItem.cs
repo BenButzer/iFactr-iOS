@@ -56,17 +56,18 @@ namespace iFactr.Touch
         }
         private Link navigationLink;
 
+        // Microsoft.iOS Conversion: Disable Textcolor change to ForegroundColor
         public Color TitleColor
         {
-            get { return GetTitleTextAttributes(UIControlState.Normal).TextColor.ToColor(); }
+            get { return GetTitleTextAttributes(UIControlState.Normal).ForegroundColor.ToColor(); }
             set
             {
-                if (value != GetTitleTextAttributes(UIControlState.Normal).TextColor.ToColor())
+                if (value != GetTitleTextAttributes(UIControlState.Normal).ForegroundColor.ToColor())
                 {
-                    SetTitleTextAttributes(new UITextAttributes()
+                    SetTitleTextAttributes(new UIStringAttributes()
                     {
                         Font = GetTitleTextAttributes(UIControlState.Normal).Font,
-                        TextColor = value.IsDefaultColor ? null : value.ToUIColor()
+                        ForegroundColor = value.IsDefaultColor ? null : value.ToUIColor()
                     }, UIControlState.Normal);
 
                     var handler = PropertyChanged;
@@ -77,7 +78,7 @@ namespace iFactr.Touch
                 }
             }
         }
-        
+
         public Font TitleFont
         {
             get { return GetTitleTextAttributes(UIControlState.Normal).Font.ToFont(); }
@@ -86,10 +87,10 @@ namespace iFactr.Touch
                 var font = value.ToUIFont();
                 if (font != GetTitleTextAttributes(UIControlState.Normal).Font)
                 {
-                    SetTitleTextAttributes(new UITextAttributes()
+                    SetTitleTextAttributes(new UIStringAttributes()
                     {
                         Font = value.ToUIFont(),
-                        TextColor = GetTitleTextAttributes(UIControlState.Normal).TextColor
+                        ForegroundColor = GetTitleTextAttributes(UIControlState.Normal).ForegroundColor
                     }, UIControlState.Normal);
 
                     var handler = PropertyChanged;
