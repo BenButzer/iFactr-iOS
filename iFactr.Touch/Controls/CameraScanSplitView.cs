@@ -1,14 +1,10 @@
 ﻿using AVFoundation;
 using CoreFoundation;
-using CoreGraphics;
-using Foundation;
+
 using iFactr.Core;
 using MonoCross.Utilities;
 using iFactr.UI;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using UIKit;
+
 
 namespace iFactr.Touch
 {
@@ -88,6 +84,30 @@ namespace iFactr.Touch
             this._imageOverlay.Add(view);
         }
 
+        private void AddCameraTryAgainLabels()
+        {
+            nfloat width = this._imageOverlay.Frame.Width;
+            nfloat nfloat = (this._imageOverlay.Frame.Height - 30f) / 2 - 20;
+            UILabel uILabel = new UILabel
+            {
+                Text = "Camera Readying",
+                TextAlignment = UITextAlignment.Center,
+                Frame = new CGRect(0, nfloat, width, 30f),
+                AutoresizingMask = UIViewAutoresizing.All
+            };
+            this._imageOverlay.Add(uILabel);
+            UILabel view = new UILabel
+            {
+                Text = "If you just granted access for the first time, hit done and then scan again.",
+                TextAlignment = UITextAlignment.Center,
+                LineBreakMode = UILineBreakMode.WordWrap,
+                Lines = 0,
+                Frame = new CGRect(0, nfloat + uILabel.Frame.Height + 10, width, 60f),
+                AutoresizingMask = UIViewAutoresizing.All
+            };
+            this._imageOverlay.Add(view);
+        }
+
         public override void DidReceiveMemoryWarning()
         {
             Device.Log.Warn("CameraScanSplitView Received memory warning from OS", new object[0]);
@@ -126,7 +146,8 @@ namespace iFactr.Touch
                 {
                     millisecondsTimeout = this.DuplicateWait - 100;
                 }
-                else {
+                else
+                {
                     millisecondsTimeout = this.DuplicateWait;
                 }
                 new ManualResetEvent(false).WaitOne(millisecondsTimeout);
@@ -143,11 +164,13 @@ namespace iFactr.Touch
                 {
                     cameraListSource.AddBarcode(barcode);
                 }
-                else {
+                else
+                {
                     Device.Log.Error("Error displaying the camera scanner results view", new object[0]);
                 }
             }
-            else {
+            else
+            {
                 Device.Log.Debug("Barcode value was null, ignoring the scan", new object[0]);
             }
             return barcode;
@@ -165,7 +188,7 @@ namespace iFactr.Touch
             this._cameraView.Layer.AffineTransform = CGAffineTransform.MakeTranslation(0, this.View.Frame.Height / 4 * -1);
         }
 
-        public override void ViewDidLoad()
+        public void ViewDidLoad(bool isEvUser)
         {
             base.ViewDidLoad();
             this.View.BackgroundColor = UIColor.White;
@@ -199,12 +222,32 @@ namespace iFactr.Touch
             };
             this._cameraView.Frame = frame;
 
-            AVAuthorizationStatus authorizationStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+            AVAuthorizationStatus authorizationStatus = AVCaptureDevice.GetAuthorizationStatus(AVAuthorizationMediaType.Video);
+
+
+            //AVCaptureDevice device = AVCaptureDevice.GetDefaultDevice(); // update for iOS 13
+
+
+            AVCaptureDevice device = null;
+
+            if (AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInDualCamera, AVMediaTypes.Video, AVCaptureDevicePosition.Back) != null)
+            {
+                device = AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInDualCamera, AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+            }
+            else if (AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera, AVMediaTypes.Video, AVCaptureDevicePosition.Back) != null)
+            {
+                device = AVCaptureDevice.GetDefaultDevice(AVCaptureDeviceType.BuiltInWideAngleCamera, AVMediaTypes.Video, AVCaptureDevicePosition.Back);
+            }
+            else
+            {
+                throw new Exception("Missing expected back camera device.");
+            }
+
 
             if (authorizationStatus == AVAuthorizationStatus.Authorized)
             {
 
-                AVCaptureDevice device = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
+
                 NSError nSError;
                 AVCaptureDeviceInput aVCaptureDeviceInput = AVCaptureDeviceInput.FromDevice(device, out nSError);
                 if (aVCaptureDeviceInput != null)
@@ -215,23 +258,38 @@ namespace iFactr.Touch
                     this._captureSession.AddOutput(aVCaptureMetadataOutput);
                     this._cameraMetaDataDelegate = new CameraScannerSplitView.CameraMetaDataDelegate(this);
                     aVCaptureMetadataOutput.SetDelegate(this._cameraMetaDataDelegate, DispatchQueue.MainQueue);
-                    //aVCaptureMetadataOutput.MetadataObjectTypes = aVCaptureMetadataOutput.AvailableMetadataObjectTypes;
-                    aVCaptureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.QRCode | AVMetadataObjectType.Code128Code | AVMetadataObjectType.UPCECode | AVMetadataObjectType.EAN13Code;
+                    // Update in 2019 for iOS13 and iPhone 11, explicit types and request access
+                    // Add DeviceMatrix 2021
+                    // Microsoft.iOS Conversion: 
+
+                    if (isEvUser)
+                    {
+                        aVCaptureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.QRCode |
+                            AVMetadataObjectType.Code128Code | AVMetadataObjectType.UPCECode |
+                            AVMetadataObjectType.EAN13Code | AVMetadataObjectType.DataMatrixCode;
+                    }
+                    else
+                    {
+                        aVCaptureMetadataOutput.MetadataObjectTypes = AVMetadataObjectType.Code128Code |
+                            AVMetadataObjectType.UPCECode | AVMetadataObjectType.EAN13Code;
+                    }
+
                 }
             }
             else if (authorizationStatus == AVAuthorizationStatus.NotDetermined)
             {
-                AVCaptureDevice.RequestAccessForMediaType(AVMediaType.Video, (granted) =>
-                {
-                    if (!granted)
+                AVCaptureDevice.RequestAccessForMediaType(AVAuthorizationMediaType.Video, (granted)
+                     =>
                     {
-                        Device.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType not granted!");
-                    }
-                    else
-                    {
-                        Device.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType granted!");
-                    }
-                });
+                        if (!granted)
+                        {
+                            Device.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType not granted!");
+                        }
+                        else
+                        {
+                            Device.Log.Error("ViewDidLoadBase ScanLayer RequestAccessForMediaType granted!");
+                        }
+                    });
             }
             else
             {
@@ -244,20 +302,24 @@ namespace iFactr.Touch
                 switch ((int)authorizationStatus)
                 {
                     case 0:
-                        AVCaptureDevice.RequestAccessForMediaType(AVMediaType.Video, delegate (bool result)
-                        {
-                            Device.Thread.ExecuteOnMainThread(delegate
-                            {
-                                if (result)
-                                {
-                                    this.SetupVideoPreviewLayer();
-                                }
-                                else {
-                                    this.AddNoCameraAccessLabels();
-                                }
-                            });
-                        });
+                        Device.Log.Warn("Camera Access is not yet authorized on main thread", new object[0]);
+                        this.AddCameraTryAgainLabels();
                         break;
+                    // this does not happen in time on the main thread
+                    //AVCaptureDevice.RequestAccessForMediaType(AVMediaType.Video, delegate (bool result)
+                    //{
+                    //    Device.Thread.ExecuteOnMainThread(delegate
+                    //    {
+                    //        if (result)
+                    //        {
+                    //            this.SetupVideoPreviewLayer();
+                    //        }
+                    //        else {
+                    //            this.AddNoCameraAccessLabels();
+                    //        }
+                    //    });
+                    //});
+                    //break;
                     case 1:
                         Device.Log.Warn("Camera Access is restricted", new object[0]);
                         this.AddNoCameraAccessLabels();
@@ -301,7 +363,7 @@ namespace iFactr.Touch
                         Device.Log.Error("This error occurred while parsing barcodes scanned: \r\n" + arg, new object[0]);
                     }
                 }
-                if (this._callback.Parameters== null)
+                if (this._callback.Parameters == null)
                 {
                     this._callback.Parameters = new Dictionary<string, string>();
                 }
@@ -473,7 +535,8 @@ namespace iFactr.Touch
                             }
                         }
                     }
-                    else {
+                    else
+                    {
                         iApp.Log.Info("Invalid AVMetadataObject type: " + aVMetadataObject.Type.ToString(), new object[0]);
                     }
                 }
@@ -527,6 +590,8 @@ namespace iFactr.Touch
             {
                 DateTime utcNow = DateTime.UtcNow;
                 if (newInput.CompareTo(this._lockBarcode) == 0 && (utcNow - this._lastScanTime).TotalMilliseconds < (double)this._duplicateWait)
+
+                
                 {
                     string text = string.Format("REJECTED {0}: Barcode {1} was previously added to the buffer at {2}", utcNow.ToString("ss.f"), newInput, this._lastScanTime.ToString("ss.ffff"));
                     iApp.Log.Debug(text, new object[0]);
@@ -541,7 +606,8 @@ namespace iFactr.Touch
                     {
                         num = (this._buffer[newInput] = num + 1);
                     }
-                    else {
+                    else
+                    {
                         num = 1;
                         this._buffer[newInput] = num;
                     }

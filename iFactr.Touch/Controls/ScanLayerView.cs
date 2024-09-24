@@ -315,17 +315,19 @@ namespace iFactr.Touch
                 _captureSession = new AVCaptureSession();
                 CameraMetaDataDelegate del = null;
 
-                var authStatus = AVCaptureDevice.GetAuthorizationStatus(AVMediaType.Video);
+                // Microsoft.iOS Conversion: Update for deprecated code working in Xamarin but not latest 2023
+
+                var authStatus = AVCaptureDevice.GetAuthorizationStatus(AVAuthorizationMediaType.Video);
                 AVCaptureDevice captureDevice = null;
             
                 // check authorization status
                 if (authStatus == AVAuthorizationStatus.Authorized)
                 {
-                    captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaType.Video); // update for iOS 13
+                    captureDevice = AVCaptureDevice.GetDefaultDevice(AVMediaTypes.Video); // update for iOS 13
                 }
                 else if (authStatus == AVAuthorizationStatus.NotDetermined)
                 {
-                    AVCaptureDevice.RequestAccessForMediaType(AVMediaType.Video, (granted) =>
+                    AVCaptureDevice.RequestAccessForMediaType(AVAuthorizationMediaType.Video, (granted) =>
                     {
                         if (!granted)
                         {
@@ -580,16 +582,17 @@ namespace iFactr.Touch
             public int Add(string newInput)
             {
                 DateTime currentScanTime = DateTime.UtcNow;
-                if (newInput.CompareTo(_lockBarcode) == 0)
-                {
-                    if ((currentScanTime - _lastScanTime).TotalMilliseconds < _duplicateWait)
+                // Defect 11683 - Allow to scan the same lot controlled barcode more than once 
+                //if (newInput.CompareTo(_lockBarcode) == 0)
+                //{ 
+                    if ((currentScanTime - _lastScanTime).TotalMilliseconds < (double)_duplicateWait)
                     {
                         var s = String.Format("REJECTED {0}: Barcode {1} was previously added to the buffer at {2}",
                                         currentScanTime.ToString("ss.f"), newInput, _lastScanTime.ToString("ss.ffff"));
                         iApp.Log.Debug(s);
                         return 0;
                     }
-                }
+                //}
 
                 int result = 0;
                 lock (_lockObj)
