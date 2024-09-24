@@ -84,7 +84,7 @@ namespace iFactr.Core.Targets
         /// <summary>
         /// Gets or sets an instance of the timer that is used for determining when to display the load indicator.
         /// </summary>
-        protected ITimer LoadTimer { get; set; }
+        protected iFactr.UI.ITimer LoadTimer { get; set; }
 
         /// <summary>
         /// Gets or sets the default delay, in milliseconds, before the load indicator is displayed.
@@ -339,7 +339,8 @@ namespace iFactr.Core.Targets
                 {
                     case "accel":
                         var parameters = HttpUtility.ParseQueryString(browser.Url.Substring(browser.Url.IndexOf('?')));
-                        string callback = parameters == null ? null : parameters.GetValueOrDefault("callback");
+                       // var restfulObject = System.Collections.Generic.DictionaryExtensions.GetValueOrDefault<string, RestfulObject<T>>(cache, key);
+                        string callback = parameters == null ? null : System.Collections.Generic.DictionaryExtensions.GetValueOrDefault <string, string>( parameters,"callback");
                         if (callback == null)
                         {
                             throw new ArgumentException("Accelerometer requires a callback URI.");
@@ -367,7 +368,9 @@ namespace iFactr.Core.Targets
                         return true;
                     case "compass":
                         parameters = HttpUtility.ParseQueryString(browser.Url.Substring(browser.Url.IndexOf('?')));
-                        callback = parameters == null ? null : parameters.GetValueOrDefault("callback");
+                        callback = parameters == null ? null : System.Collections.Generic.DictionaryExtensions.GetValueOrDefault<string, string>(parameters, "callback");
+
+                        //callback = parameters == null ? null : parameters.GetValueOrDefault("callback");
                         if (callback == null)
                         {
                             throw new ArgumentException("Compass requires a callback URI.");
@@ -393,7 +396,9 @@ namespace iFactr.Core.Targets
                         return true;
                     case "geoloc":
                         parameters = HttpUtility.ParseQueryString(browser.Url.Substring(browser.Url.IndexOf('?')));
-                        callback = parameters == null ? null : parameters.GetValueOrDefault("callback");
+                        callback = parameters == null ? null : System.Collections.Generic.DictionaryExtensions.GetValueOrDefault<string, string>(parameters, "callback");
+
+                        //callback = parameters == null ? null : parameters.GetValueOrDefault("callback");
                         if (callback == null)
                         {
                             throw new ArgumentException("Geolocation requires a callback URI.");
@@ -616,7 +621,7 @@ namespace iFactr.Core.Targets
                 }
                 else if (delay > 0)
                 {
-                    LoadTimer = Resolve<ITimer>();
+                    LoadTimer = Resolve<iFactr.UI.ITimer>();
                     if (LoadTimer == null)
                     {
                         OnShowLoadIndicator(title ?? GetResourceString("Loading"));
