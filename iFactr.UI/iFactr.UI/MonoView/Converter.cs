@@ -76,10 +76,59 @@ namespace iFactr.UI
             method = method ?? secondary;
             if (method != null && method.GetParameters()[0].ParameterType != typeof(object))
             {
-                return method.Invoke(this, new[] { item, layerStyle, view, cell }) as ICell;
+                var item_typecheck = item.GetType();
+                if (view.Title == "Procedure Activity" && item_typecheck.Name == "iItem")
+                {
+                    var itemchk = (iItem)item;
+                    return CustomColorCell(itemchk, layerStyle, view, cell, itemchk.TextColor, itemchk.SubTextColor, itemchk.FontFormat);
+                }
+                else
+                {
+                    return method.Invoke(this, new[] { item, layerStyle, view, cell }) as ICell;
+                }
+                //return method.Invoke(this, new[] { item, layerStyle, view, cell }) as ICell;
+
             }
             return null;
         }
+
+        protected virtual ICell CustomColorCell(iItem item, Style layerStyle, IListView view, ICell cell, string textColor, string subTextColor, string fontFormat)
+        {
+            var font = Font.PreferredLabelFont;
+            font.Size = 18;
+            font.Formatting = fontFormat == "Bold" ? FontFormatting.Bold : FontFormatting.Normal;
+
+            var gridCell = (cell as ContentCell ?? (cell == null ? null : cell.Pair as ContentCell)) ?? new ContentCell();
+            //gridCell.MaxHeight = gridCell.MinHeight = Cell.StandardCellHeight + Thickness.TopMargin + Thickness.BottomMargin;
+            gridCell.TextLabel.Text = item.Text;
+            gridCell.TextLabel.Font = font;
+
+            if (item.Subtext != null && item.Subtext.Length >= 1)
+            {
+                gridCell.SubtextLabel.Text = item.Subtext;
+                gridCell.ValueLabel.Text = null;
+            }
+            else
+            {
+                gridCell.SubtextLabel.Text = null;
+                gridCell.ValueLabel.Text = item.Subtext;
+            }
+
+            gridCell.SelectionStyle = item.Link == null || item.Link.Address == null ? SelectionStyle.None : SelectionStyle.Default;
+            gridCell.NavigationLink = item.Link;
+            gridCell.AccessoryLink = item.Button;
+
+            if (layerStyle != null)
+            {
+                gridCell.BackgroundColor = layerStyle.LayerItemBackgroundColor;
+                gridCell.SelectionColor = layerStyle.SelectionColor;
+                gridCell.TextLabel.ForegroundColor = textColor == null ? Color.Black : new Color(textColor);
+                gridCell.SubtextLabel.ForegroundColor = subTextColor == null ? new Color("#5f5f5f") : new Color(subTextColor);
+            }
+
+            return gridCell;
+        }
+
 
         #region IHtmlText Cell Conversion
         /// <summary>
@@ -148,10 +197,11 @@ namespace iFactr.UI
         protected virtual ICell ConvertToCell(iItem item, Style layerStyle, IListView view, ICell cell)
         {
             var gridCell = (cell as ContentCell ?? (cell == null ? null : cell.Pair as ContentCell)) ?? new ContentCell();
-
+            // S-102769 - Combined Patient Search results page - June 19, 2023
+            gridCell.MaxHeight = double.PositiveInfinity;
             gridCell.TextLabel.Text = item.Text;
 
-            if (item.Subtext != null && item.Subtext.Length > 7)
+            if (item.Subtext != null && item.Subtext.Length >= 1)
             {
                 gridCell.SubtextLabel.Text = item.Subtext;
                 gridCell.ValueLabel.Text = null;
@@ -161,7 +211,17 @@ namespace iFactr.UI
                 gridCell.SubtextLabel.Text = null;
                 gridCell.ValueLabel.Text = item.Subtext;
             }
-
+            // S-102769 - Combined Patient Search results page - June 19, 2023
+            if (item.SubSourcetext != null && item.SubSourcetext.Length >= 1)
+            {
+                gridCell.SubSourcetextLabel.Text = item.SubSourcetext;
+                gridCell.ValueLabel.Text = null;
+            }
+            else
+            {
+                gridCell.SubSourcetextLabel.Text = null;
+                gridCell.ValueLabel.Text = item.SubSourcetext;
+            }
             gridCell.Image.FilePath = item.Icon == null ? null : item.Icon.Location;
             gridCell.Image.Stretch = ContentStretch.None;
 
@@ -175,6 +235,8 @@ namespace iFactr.UI
                 gridCell.SelectionColor = layerStyle.SelectionColor;
                 gridCell.TextLabel.ForegroundColor = layerStyle.TextColor;
                 gridCell.SubtextLabel.ForegroundColor = layerStyle.SubTextColor;
+                // S-102769 - Combined Patient Search results page - June 19, 2023
+                gridCell.SubSourcetextLabel.ForegroundColor = layerStyle.SecondarySubTextColor;
                 gridCell.ValueLabel.ForegroundColor = layerStyle.SecondarySubTextColor;
             }
 
@@ -605,6 +667,79 @@ namespace iFactr.UI
             boolSwitch.SubmitKey = field.ID;
             boolSwitch.ClearBinding(Switch.ValueProperty);
             boolSwitch.SetBinding(new Binding(Switch.ValueProperty, "Value") { Source = field, Mode = BindingMode.TwoWay });
+
+            if (layerStyle != null)
+            {
+                headeredCell.BackgroundColor = layerStyle.LayerItemBackgroundColor;
+                headeredCell.Header.ForegroundColor = layerStyle.TextColor;
+                boolSwitch.ForegroundColor = layerStyle.TextColor;
+            }
+
+            var errorLabel = headeredCell.GetChild<Label>("error");
+            if (field.IsValid && errorLabel != null)
+            {
+                headeredCell.RemoveControl(errorLabel);
+            }
+            else if (!field.IsValid)
+            {
+                if (errorLabel == null)
+                {
+                    var errorColor = layerStyle == null || layerStyle.ErrorTextColor.IsDefaultColor ? Color.Red : layerStyle.ErrorTextColor;
+                    errorLabel = new Label();
+                    errorLabel.ForegroundColor = errorColor;
+                    errorLabel.Font = Font.PreferredSmallFont;
+                    errorLabel.ID = "error";
+                    headeredCell.AddControl(errorLabel);
+                }
+
+                errorLabel.Text = string.Join("\n", field.BrokenRules.ToArray());
+            }
+            return headeredCell;
+        }
+
+        /// <summary>
+        /// Called when an <see cref="iFactr.UI.ICell"/> instance is needed for the specified <see cref="DisabledSwitchField"/>.
+        /// </summary>
+        /// <param name="field">The field from which to generate the cell.</param>
+        /// <param name="layerStyle">The <see cref="iFactr.Core.Styles.Style"/> instance that describes the field style,
+        /// or <c>null</c> if the field will use the default style.</param>
+        /// <param name="view">The view that the cell will reside in.</param>
+        /// <param name="cell">An <see cref="iFactr.UI.ICell"/> instance to use in place of a new one, or <c>null</c> if a new one is needed.</param>
+        /// <returns>The generated cell for the specified field.</returns>
+        protected virtual ICell ConvertToCell(DisabledSwitchField field, Style layerStyle, IListView view, ICell cell)
+        {
+            var headeredCell = cell as HeaderedControlCell;
+            if (headeredCell == null)
+            {
+                headeredCell = new HeaderedControlCell(field.Label, new Switch());
+                headeredCell.Selected += (o, e) =>
+                {
+                    var c = o as HeaderedControlCell;
+                    if (c != null)
+                    {
+                        var control = c.GetChild<Switch>();
+                        if (control != null)
+                        {
+                            control.Value = false;
+                        }
+                    }
+                };
+            }
+            else
+            {
+                headeredCell.Header.Text = field.Label;
+            }
+
+            headeredCell.MinHeight = Cell.StandardCellHeight;
+            headeredCell.SelectionStyle = SelectionStyle.None;
+
+            var boolSwitch = headeredCell.GetChild<Switch>();
+            boolSwitch.SubmitKey = field.ID;
+            boolSwitch.ClearBinding(Switch.ValueProperty);
+            boolSwitch.IsEnabled = field.IsEnabled;
+            boolSwitch.SetBinding(new Binding(Switch.ValueProperty, "Value") { Source = field, Mode = BindingMode.TwoWay });
+
+
 
             if (layerStyle != null)
             {
@@ -1908,7 +2043,7 @@ namespace iFactr.UI
             .Case<ButtonField>(f =>
             {
                 var button = recycledControl as Button ?? new Button();
-                button.Font = Font.PreferredLabelFont;
+                button.Font = Font.PreferredLabelFont; 
                 button.HorizontalAlignment = HorizontalAlignment.Stretch;
                 button.Title = f.Label;
                 button.NavigationLink = f.Link;
