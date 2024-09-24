@@ -34,7 +34,12 @@ namespace iFactr.UI
         /// <returns>The value associated with the <paramref name="key"/>, or <c>null</c> if no key was found.</returns>
         public object this[object key]
         {
-            get { return data.GetValueOrDefault(key); }
+            get
+            {
+                //return data.GetValueOrDefault(key);
+                return System.Collections.Generic.DictionaryExtensions.GetValueOrDefault<object, object>(data, key);
+
+            }
             set
             {
                 if (key != null)
@@ -112,7 +117,8 @@ namespace iFactr.UI
         /// <param name="key">The key associated with the value to be returned.</param>
         public T Get<T>(object key)
         {
-            var value = data.GetValueOrDefault(key);
+            //var value = data.GetValueOrDefault(key);
+            var value = System.Collections.Generic.DictionaryExtensions.GetValueOrDefault<object, object>(data, key);
             if (value is T)
             {
                 return (T)value;
