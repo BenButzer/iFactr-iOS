@@ -4,6 +4,8 @@ using System.Linq;
 using iFactr.Core;
 using iFactr.UI.Controls;
 using iFactr.UI.Instructions;
+// had been added in MAUI conversion, does not work on older Touch build
+// using static CoreFoundation.DispatchSource;
 
 namespace iFactr.UI
 {
@@ -478,7 +480,8 @@ namespace iFactr.UI
                 var finalSize = element.Measure(constraints);
                 var totalFinalSize = new Size(finalSize.Width + (marginLeft + marginRight), finalSize.Height + (marginTop + marginBottom));
 
-                var desiredSize = elementSizes.GetValueOrDefault(element);
+                //var desiredSize = elementSizes.GetValueOrDefault(element);
+                var desiredSize = System.Collections.Generic.DictionaryExtensions.GetValueOrDefault<IElement, Size>(elementSizes, element);
                 var totalDesiredSize = new Size(desiredSize.Width + (marginLeft + marginRight), desiredSize.Height + (marginTop + marginBottom));
 
                 // if the final size is different from the desired size, see if any row or column needs adjustment.
@@ -626,6 +629,7 @@ namespace iFactr.UI
                 finalSize.Height = Math.Max(finalSize.Height, 0);
 
                 elementSizes[element] = finalSize;
+                // Oct 2022 Fatal Exception: CALayerInvalidGeometry NaN in one of these when calling Label.SetLocation
                 element.SetLocation(location, finalSize);
             }
 
